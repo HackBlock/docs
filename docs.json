@@ -25,7 +25,7 @@
           {
             "group": "Simulacros de phishing",
             "pages": [
-              "paginas/guia-whitelist-defender.mdx"
+              "paginas/guia-whitelist-defender"
             ]
           }
         ]
