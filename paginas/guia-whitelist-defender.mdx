@@ -1,0 +1,139 @@
+---
+title: "Guía Whitelisting Microsoft Defender"
+description: "Guía completa."
+---
+
+# Whitelisting en Microsoft Defender
+
+Guía paso a paso para que el equipo de IT configure las exclusiones necesarias antes de iniciar una simulación de phishing autorizada con HackBlock.
+
+**Plataforma:** Microsoft Defender for Office 365  
+**Tipo:** Prerrequisito — debe completarse antes del inicio de campaña
+
+---
+
+## ¿Por qué es necesario?
+
+Microsoft Defender for Office 365 analiza activamente los emails entrantes y los enlaces que contienen. Sin estas exclusiones ocurren dos problemas:
+
+- Los emails de simulación son bloqueados o enviados a cuarentena antes de llegar al buzón.
+- Microsoft Safe Links intercepta y bloquea los enlaces del email cuando el usuario intenta hacer clic, aunque el email haya llegado correctamente.
+
+Ambos casos invalidan los resultados de la campaña.
+
+---
+
+## Datos de tu campaña
+
+Antes de comenzar, HackBlock te habrá proporcionado los siguientes datos:
+
+| Campo            | Valor                                          |
+|------------------|------------------------------------------------|
+| IP de envío      | `1.1.1.1`                                  |
+| Dominio de campaña | `[proporcionado por HackBlock]`              |
+| Simulation URL   | `[dominio-campaña]/*`                          |
+
+> **Nota:** El dominio de campaña es específico de cada simulación. HackBlock te lo comunicará antes del inicio. No uses un dominio genérico.
+
+---
+
+## Paso 1 — Configurar Advanced Delivery
+
+Esta configuración le indica a Defender que los emails y enlaces de la campaña son una simulación autorizada, eximiéndolos de los filtros de amenazas.
+
+**Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Advanced Delivery** → pestaña **Phishing simulation**
+
+### Instrucciones
+
+1. Accede al portal de Microsoft Defender en [security.microsoft.com](https://security.microsoft.com).
+
+2. En el menú lateral, ve a **Email & Collaboration** → **Policies & Rules**.
+
+3. Haz clic en **Threat Policies** → **Advanced Delivery**.
+
+4. Selecciona la pestaña **Phishing simulation** y haz clic en **Edit**.
+
+5. Despliega **Domain** e introduce el dominio de campaña:
+
+   ```
+   [dominio-campaña proporcionado por HackBlock]
+   ```
+
+6. Despliega **Sending IP** e introduce la siguiente dirección:
+
+   ```
+   1.1.1.1
+   ```
+
+7. Despliega **Simulation URL** e introduce la URL con wildcard:
+
+   ```
+   [dominio-campaña]/*
+   ```
+
+   > **¿Qué hace este campo?**  
+   > Indica a Microsoft Safe Links que no intercepte ni reescriba los enlaces del dominio de campaña. Sin esto, Safe Links bloqueará el enlace de phishing cuando el usuario haga clic, aunque el email haya llegado al buzón correctamente.
+
+8. Haz clic en **Save** y luego en **Close**.
+
+---
+
+## Paso 2 — Connection Filter Policy
+
+Este paso garantiza que los emails no sean rechazados a nivel de conexión SMTP antes de llegar al procesamiento de Defender.
+
+**Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Anti-Spam policies** → Connection filter policy (Default)
+
+### Instrucciones
+
+1. En el portal de Defender, ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies**.
+
+2. Haz clic en **Anti-Spam policies** → **Connection filter policy (Default)**.
+
+3. Haz clic en **Edit connection filter policy**.
+
+4. En el apartado **"Always allow messages from the following IP addresses or address range"**, añade:
+
+   ```
+   1.1.1.1
+   ```
+
+5. Asegúrate de que la política está activa y haz clic en **Save**.
+
+---
+
+## Paso 3 — Verificar el whitelisting
+
+Una vez completados los pasos anteriores, HackBlock enviará un email de prueba a una cuenta del dominio. Verifica lo siguiente antes de confirmar:
+
+- [ ] **El email llega al buzón de entrada** — No debe aparecer en spam ni en cuarentena. Si no lo encuentras, revisa el Message Trace en el portal de Defender.
+- [ ] **El enlace dentro del email funciona** — Al hacer clic debe redirigir correctamente. Si aparece una página de advertencia de Safe Links, el campo Simulation URL no está configurado correctamente.
+- [ ] **No hay reescritura de URLs** — El enlace no debe transformarse en una URL de `safelinks.protection.outlook.com`. Si ocurre, Safe Links sigue activo sobre ese dominio.
+
+> **Importante:** Confirma con HackBlock una vez superada la verificación. La campaña no se iniciará hasta recibir esta confirmación.
+
+---
+
+## Troubleshooting
+
+### El email va a cuarentena o spam
+
+Revisa que la IP `1.1.1.1` está correctamente añadida en la Connection Filter Policy. Un error tipográfico es la causa más habitual. Puedes usar el **Message Trace** (`security.microsoft.com` → Email & Collaboration → Exchange message trace) para ver exactamente en qué punto fue bloqueado.
+
+### El enlace es bloqueado por Safe Links
+
+Verifica el campo Simulation URL en Advanced Delivery. Debe incluir el wildcard `/*` al final del dominio. Ejemplo correcto: `example.com/*`.
+
+### El email no aparece en ningún sitio
+
+Usa el **Message Trace** en el portal de Defender para rastrear el email por sender y recipient. Te mostrará si fue rechazado en capa de conexión, filtrado por anti-spam o puesto en cuarentena.
+
+### Tienes otras herramientas de seguridad
+
+Defender no es el único punto de control. Si tu organización usa Proofpoint, Mimecast, Zscaler u otra solución de seguridad de email, es necesario configurar exclusiones adicionales. Contacta con HackBlock — existen guías específicas para cada plataforma.
+
+---
+
+## Contacto
+
+¿Necesitas ayuda durante el proceso? Contacta con tu consultor de HackBlock o escribe a [contacto@hack-block.com](mailto:contacto@hack-block.com).

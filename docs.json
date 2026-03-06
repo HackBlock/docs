@@ -12,14 +12,20 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Guías",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Empezando",
             "pages": [
               "index",
               "quickstart",
               "development"
+            ]
+          },
+          {
+            "group": "Simulacros de phishing",
+            "pages": [
+              "paginas/guia-whitelist-defender.mdx"
             ]
           }
         ]
@@ -33,7 +39,7 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
+        "label": "Soporte",
         "href": "mailto:contacto@hack-block.com"
       }
     ],
