@@ -17,9 +17,7 @@
           {
             "group": "Empezando",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "index"
             ]
           },
           {
