@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "linden",
+  "theme": "willow",
   "name": "HackBlock Docs",
   "locale": "es",
   "colors": {
     "primary": "#133d51",
-    "light": "#000000",
+    "light": "#133d51",
     "dark": "#133d51"
   },
   "favicon": "/favicon.png",
