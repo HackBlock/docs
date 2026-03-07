@@ -1,0 +1,91 @@
+---
+title: "Guía Whitelisting Google Workspace"
+description: "Guía completa."
+---
+
+# Whitelisting en Google Workspace
+
+Guía paso a paso para que el equipo de IT configure las exclusiones necesarias en Google Admin antes de iniciar una simulación de phishing autorizada con HackBlock.
+
+**Plataforma:** Google Workspace (Gmail)  
+**Tipo:** Prerrequisito — debe completarse antes del inicio de campaña
+
+---
+
+## ¿Por qué es necesario?
+
+Google Workspace analiza los emails entrantes en busca de spam, phishing y malware. Sin esta configuración, los emails de simulación serán bloqueados o desviados a la carpeta de spam antes de llegar al buzón del usuario, lo que invalida los resultados de la campaña.
+
+---
+
+## Datos de tu campaña
+
+| Campo          | Valor                             |
+|----------------|-----------------------------------|
+| IP de envío    | `1.1.1.1`                         |
+| Dominio        | `hack-block.com`                  |
+
+> **Nota:** Si HackBlock te ha proporcionado IPs o dominios adicionales específicos para tu campaña, añádelos también siguiendo los mismos pasos.
+
+---
+
+## Paso 1 — Configurar la lista de IPs permitidas en Gmail
+
+**Ruta:** `admin.google.com` → Apps → Gmail → Spam, Phishing and Malware → **Email allowlist**
+
+### Instrucciones
+
+1. Accede al panel de administración de Google en [admin.google.com](https://admin.google.com).
+
+2. En el menú lateral, haz clic en **Apps**.
+
+3. En el desplegable, selecciona **Gmail**.
+
+4. Desplázate hasta el final de la página y haz clic en **Spam, Phishing and Malware**.
+
+5. Localiza el apartado **Email allowlist** y haz clic en **Edit**.
+
+6. Introduce la siguiente dirección IP:
+
+   ```
+   1.1.1.1
+   ```
+
+7. Haz clic en **Save**.
+
+---
+
+## Paso 2 — Verificar el whitelisting
+
+Una vez completado el paso anterior, HackBlock enviará un email de prueba a una cuenta del dominio. Verifica lo siguiente antes de confirmar:
+
+- [ ] **El email llega al buzón de entrada** — No debe aparecer en spam ni ser bloqueado. Si no lo encuentras, revisa el registro de actividad en la consola de administración de Google.
+- [ ] **El enlace dentro del email funciona** — Al hacer clic debe redirigir correctamente sin páginas de advertencia intermedias.
+
+> **Importante:** Confirma con HackBlock una vez superada la verificación. La campaña no se iniciará hasta recibir esta confirmación.
+
+---
+
+## Troubleshooting
+
+### El email llega a spam
+
+Revisa que la IP `1.1.1.1` está correctamente introducida en el Email allowlist. Un error tipográfico es la causa más habitual. Puedes verificar el estado del email desde **Admin** → **Reporting** → **Email Log Search**.
+
+### El email no aparece en ningún sitio
+
+Usa el **Email Log Search** en la consola de administración (`admin.google.com` → Reporting → Email Log Search) para rastrear el mensaje por remitente o destinatario y ver en qué punto fue bloqueado.
+
+### El enlace del email no funciona
+
+Google Workspace no dispone de un sistema equivalente a Safe Links de Microsoft, por lo que el bloqueo de enlaces suele estar causado por otra herramienta de seguridad adicional (proxy, endpoint protection, etc.). Revisa si tu organización tiene capas de seguridad adicionales y contacta con HackBlock.
+
+### Tienes otras herramientas de seguridad
+
+El Email allowlist de Google no es el único punto de control. Si tu organización usa Proofpoint, Mimecast, Zscaler u otra solución, es necesario configurar exclusiones adicionales. Contacta con HackBlock — existen guías específicas para cada plataforma.
+
+---
+
+## Contacto
+
+¿Necesitas ayuda durante el proceso? Contacta con tu consultor de HackBlock o escribe a [soporte@hack-block.com](mailto:soporte@hack-block.com).

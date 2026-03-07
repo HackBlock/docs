@@ -24,7 +24,8 @@
             "group": "Simulacros de phishing",
             "pages": [
               "paginas/empezando-con-simulacros-de-phishing",
-              "paginas/guia-whitelist-defender"
+              "paginas/guia-whitelist-defender",
+              "paginas/guia-whitelist-google"
             ]
           }
         ]
