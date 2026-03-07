@@ -1,0 +1,129 @@
+---
+title: "Evitar herramientras anti-spam"
+description: "Para que no interfieran con los simulacros."
+---
+
+# Evitar que herramientas anti-spam de terceros interfieran con los emails de simulación
+
+Guía para crear una regla de flujo de correo en Exchange que impida que soluciones anti-spam externas modifiquen los emails de la simulación de phishing.
+
+**Plataforma:** Microsoft Exchange (Mail Flow Rules)  
+**Tipo:** Configuración adicional — necesaria si usas herramientas anti-spam de terceros
+
+---
+
+## ¿Por qué es necesario?
+
+Algunas herramientas anti-spam de terceros (como Avanan, Trend Micro u otras) funcionan mediante una regla de transporte en Exchange que enruta el email hacia su propia infraestructura para inspeccionarlo y lo reinyecta en el flujo de correo si lo considera seguro.
+
+Este proceso **modifica la IP de origen del email**. Como consecuencia, Microsoft Defender deja de reconocerlo como una simulación autorizada y puede bloquearlo o procesarlo como una amenaza real, ignorando la configuración de Advanced Delivery.
+
+La solución es crear una regla de flujo de correo con **mayor prioridad** que la regla del anti-spam de terceros, de forma que los emails de HackBlock la omitan completamente.
+
+---
+
+## Datos de tu campaña
+
+| Campo       | Valor     |
+|-------------|-----------|
+| IP de envío | `1.1.1.1` |
+
+---
+
+## Paso 1 — Crear una nueva regla
+
+**Ruta:** Exchange Admin Center → Mail Flow → Rules → **Add new rule** → Create new rule
+
+1. Accede al Exchange Admin Center.
+2. En el menú lateral, ve a **Mail Flow** → **Rules**.
+3. Haz clic en **Add new rule** → **Create new rule**.
+
+---
+
+## Paso 2 — Configurar las condiciones de la regla
+
+Rellena los campos de la regla con los siguientes valores:
+
+**Nombre de la regla:**
+```
+HackBlock Phishing Simulation
+```
+
+**Apply this rule if** → **The sender** → **IP address is in any of these ranges or exactly matches:**
+```
+1.1.1.1
+```
+
+**Do the following** → **Modify the message properties** → **Set the spam confidence level (SCL)**
+
+En **Specify SCL**, selecciona: **Bypass spam filtering**
+
+> El nivel SCL se establecerá automáticamente en `-1`, lo que indica a Exchange que omita el filtrado de spam para estos mensajes.
+
+Haz clic en **Next**.
+
+---
+
+## Paso 3 — Ajustes de aplicación de la regla
+
+Configura los siguientes parámetros:
+
+| Campo                          | Valor            |
+|-------------------------------|------------------|
+| Rule mode                     | `Enforce`        |
+| Severity                      | `Not specified`  |
+| Stop processing more rules    | ✅ Activado      |
+| Match sender address in message | `Header`       |
+
+Haz clic en **Next** → **Finish** → **Done**.
+
+Una vez creada, localiza la regla en el listado y haz clic en **Enable** para activarla.
+
+---
+
+## Paso 4 — Establecer la prioridad de la regla
+
+Este paso es crítico. La regla debe tener **mayor prioridad** que la regla de enrutamiento del anti-spam de terceros para que se ejecute primero.
+
+1. Haz clic sobre la regla recién creada.
+2. Haz clic en **Edit rule settings**.
+3. Cambia la prioridad a **`0`** y haz clic en **Save**.
+4. Haz clic en **Done**.
+
+> **¿Por qué prioridad 0?**  
+> Exchange procesa las reglas de flujo de correo en orden ascendente. La prioridad `0` garantiza que esta regla se evalúe antes que cualquier otra, incluida la regla del anti-spam de terceros.
+
+---
+
+## Verificación
+
+Una vez configurada la regla, el flujo correcto debe ser:
+
+1. El email de HackBlock entra en Exchange.
+2. La regla de prioridad `0` lo identifica por IP y establece SCL `-1`.
+3. La regla del anti-spam de terceros **no se ejecuta** (Stop processing more rules activado).
+4. El email llega al buzón del usuario sin modificaciones de IP.
+
+Confirma con HackBlock que el email de prueba llega correctamente antes del inicio de la campaña.
+
+---
+
+## Troubleshooting
+
+### La regla está activa pero el anti-spam sigue interactuando con el email
+
+Comprueba que la prioridad de la regla es `0`. Si hay otras reglas con prioridad `0`, Exchange las procesa por orden de creación — puede ser necesario ajustar manualmente el orden.
+
+### El email sigue siendo bloqueado tras crear la regla
+
+Verifica que la IP `1.1.1.1` está introducida correctamente en las condiciones de la regla. Usa el **Message Trace** (`security.microsoft.com` → Email & Collaboration → Exchange message trace) para ver qué regla está actuando sobre el mensaje.
+
+### No sabes qué regla usa tu anti-spam de terceros
+
+Ve a **Mail Flow** → **Rules** y revisa el listado completo. Las reglas de herramientas como Avanan o Trend Micro suelen identificarse con el nombre del proveedor. Asegúrate de que la regla de HackBlock aparece por encima en la lista de prioridades.
+
+---
+
+## Contacto
+
+¿Necesitas ayuda durante el proceso? Contacta con tu consultor de HackBlock o escribe a [soporte@hack-block.com](mailto:soporte@hack-block.com).
