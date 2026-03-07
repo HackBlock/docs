@@ -29,6 +29,12 @@
               "paginas/guia-whitelist-google",
               "paginas/configurar-mail-conector"
             ]
+          },
+          {
+            "group": "Soporte",
+            "pages": [
+              "paginas/contacto"
+            ]
           }
         ]
       }
