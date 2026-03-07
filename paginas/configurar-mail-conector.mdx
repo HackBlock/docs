@@ -1,0 +1,120 @@
+---
+title: "Configurar un Mail Connector en Microsoft Exchange"
+description: "Guía para establecer una conexión directa entre los servidores de envío de HackBlock y tu entorno de Microsoft."
+---
+
+# Configurar un Mail Connector en Microsoft Exchange
+
+Guía para establecer una conexión directa entre los servidores de envío de HackBlock y tu entorno de Microsoft, garantizando la entrega de los emails de simulación en el buzón de los usuarios.
+
+**Plataforma:** Microsoft Exchange / Exchange Admin Center  
+**Tipo:** Configuración alternativa o complementaria al whitelisting estándar
+
+---
+
+## ¿Qué es un Mail Connector y cuándo usarlo?
+
+Un Mail Connector crea un canal de entrega directo entre los servidores de HackBlock y tu entorno de Microsoft, saltándose otras herramientas de seguridad que puedan estar bloqueando los emails en tránsito.
+
+> **Importante — limitación del Mail Connector:**  
+> El Mail Connector únicamente resuelve el **problema de entrega**: garantiza que el email llegue al buzón del usuario. Sin embargo, **no le indica a Microsoft que los emails son parte de una simulación**. Para ello es necesario completar también el whitelisting en Defender.
+>
+> - [Guía de whitelisting en Microsoft Defender](/soporte/whitelisting-microsoft-defender)
+> - [Guía de whitelisting en Google Workspace](/soporte/whitelisting-google)
+
+---
+
+## Datos de tu campaña
+
+| Campo       | Valor     |
+|-------------|-----------|
+| IP de envío | `1.1.1.1` |
+
+---
+
+## Paso 1 — Crear el Mail Connector
+
+**Ruta:** Exchange Admin Center → Mail flow → Connectors → **Add a connector**
+
+1. Accede al [Exchange Admin Center](https://admin.exchange.microsoft.com).
+2. En el menú lateral, ve a **Mail flow** → **Connectors**.
+3. Haz clic en **Add a connector**.
+4. En el campo **Connection from**, selecciona **Partner organization** y haz clic en **Next**.
+5. Asigna un nombre al conector:
+   ```
+   HackBlock Phishing Simulation
+   ```
+   Haz clic en **Next**.
+6. En la sección de identificación del remitente, selecciona **By verifying that the sender domain matches one of the following domains** e introduce la siguiente IP:
+   ```
+   1.1.1.1
+   ```
+   Haz clic en **+** para añadirla y luego en **Next**.
+7. Haz clic en **Next** → **Create connector** → **Done**.
+
+---
+
+## Paso 2 — Enviar los registros MX a HackBlock
+
+HackBlock necesita tus registros MX para configurar el conector en su extremo y enrutar correctamente los emails hacia tu entorno.
+
+**Ruta:** [Microsoft Admin Portal](https://admin.microsoft.com) → Settings → Domains
+
+1. Accede al portal de administración de Microsoft.
+2. Ve a **Settings** → **Domains**.
+3. Haz clic sobre tu dominio.
+4. Ve a **DNS records** → **MX**.
+5. Copia el valor MX de tu dominio. Tendrá un formato similar a:
+   ```
+   tuempresa-com.mail.protection.outlook.com
+   ```
+6. Repite el proceso para **todos los dominios** que usen tus usuarios.
+7. Envía los dominios y sus valores MX correspondientes a tu consultor de HackBlock.
+
+**Ejemplo del formato esperado:**
+
+```
+"hackblock.es"  →  "hackblock-es.mail.protection.outlook.com"
+"hack-block.com"  →  "hack-block-com.mail.protection.outlook.com"
+```
+
+Recibirás una confirmación de HackBlock cuando el conector esté configurado en su extremo.
+
+---
+
+## Paso 3 — Verificar la configuración
+
+Una vez que HackBlock confirme la configuración del conector, realiza la siguiente prueba:
+
+- [ ] **El email llega al buzón de entrada** — No debe aparecer en spam ni ser bloqueado por herramientas de seguridad intermedias.
+- [ ] **El enlace dentro del email funciona** — Al hacer clic debe redirigir correctamente sin páginas de advertencia intermedias.
+
+> Si el email no llega correctamente, revisa que has completado también el whitelisting en Defender. El Mail Connector por sí solo no es suficiente.
+
+---
+
+## Paso 4 — Confirmar a HackBlock
+
+Una vez recibido y verificado el email de prueba, confirma a tu consultor de HackBlock que la configuración está completa. La campaña no se iniciará hasta recibir esta confirmación.
+
+---
+
+## Troubleshooting
+
+### No encuentro la opción "Partner organization" en el asistente
+
+Asegúrate de que accedes al Exchange Admin Center correcto para tu tenant (`admin.exchange.microsoft.com`) y que tu cuenta tiene permisos de administrador de Exchange.
+
+### El email sigue sin llegar tras configurar el conector
+
+El Mail Connector solo garantiza la entrega. Si el email sigue siendo bloqueado, el problema probablemente está en otra capa de seguridad (Defender, anti-spam de terceros, etc.). Revisa las guías de whitelisting enlazadas al inicio de esta página.
+
+### No sé qué dominios tienen mis usuarios
+
+Desde el **Microsoft Admin Portal** → **Settings** → **Domains** puedes ver todos los dominios verificados de tu organización. Incluye todos los que aparezcan activos.
+
+---
+
+## Contacto
+
+¿Necesitas ayuda durante el proceso? Contacta con tu consultor de HackBlock o escribe a [contacto@hack-block.com](mailto:contacto@hack-block.com).
