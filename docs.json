@@ -4,8 +4,8 @@
   "name": "HackBlock Docs",
   "locale": "es",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
+    "primary": "#133d51",
+    "light": "#000000",
     "dark": "#133d51"
   },
   "favicon": "/favicon.png",
