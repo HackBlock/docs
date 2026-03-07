@@ -23,6 +23,7 @@
           {
             "group": "Simulacros de phishing",
             "pages": [
+              "paginas/evitar-filtros-antispam",
               "paginas/empezando-con-simulacros-de-phishing",
               "paginas/guia-whitelist-defender",
               "paginas/guia-whitelist-google"
