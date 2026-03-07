@@ -15,7 +15,7 @@
         "tab": "Guías",
         "groups": [
           {
-            "group": "Empezando",
+            "group": "Inicio",
             "pages": [
               "index"
             ]
@@ -23,6 +23,7 @@
           {
             "group": "Simulacros de phishing",
             "pages": [
+              "paginas/empezando-con-simulacros-de-phishing",
               "paginas/guia-whitelist-defender"
             ]
           }
