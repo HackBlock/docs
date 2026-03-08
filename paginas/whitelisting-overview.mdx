@@ -1,0 +1,111 @@
+---
+title: "Whitelisting para simulacros de phishing"
+description: "Inicia aquí."
+---
+# Whitelisting para simulacros de phishing
+
+Guía de introducción al proceso de whitelisting: qué es, por qué es necesario y cómo completarlo antes de nuestros simulacros.
+
+**Tipo:** Página de inicio — lee esto antes de usar cualquier guía específica
+
+---
+
+## Resumen del proceso
+
+Antes de iniciar una simulación de phishing, es necesario completar estos pasos en orden:
+
+1. Identificar todas las herramientas de seguridad de email de tu organización
+2. Configurar el whitelisting en cada una de ellas usando las guías correspondientes
+3. Verificar la entrega con un email de prueba
+4. Resolver incidencias si el email no llega correctamente
+5. Configurar un Mail Connector como medida de último recurso si la entrega falla
+
+---
+
+## Introducción
+
+Todas las organizaciones utilizan herramientas que las protegen frente a emails maliciosos. Microsoft Defender y Google Workspace incluyen estas protecciones por defecto, y muchas organizaciones añaden soluciones adicionales de terceros.
+
+Antes de ejecutar una simulación de phishing, es necesario configurar correctamente estas herramientas para que los emails de simulación puedan llegar a los usuarios. Este proceso se llama **whitelisting**.
+
+Es posible que puedas completarlo tú mismo, o que necesites la ayuda de tu administrador de IT o proveedor externo. En cualquier caso, tu consultor de HackBlock te acompañará durante el proceso.
+
+---
+
+## ¿Qué es el whitelisting y por qué es necesario?
+
+El whitelisting consiste en indicar a tus herramientas de seguridad que confíen en un remitente, dominio o URL concretos, eximiéndolos de las políticas normales de escaneo y bloqueo.
+
+Cumple dos funciones distintas:
+
+**Entrega del email.** Evita que el email de simulación sea bloqueado por los filtros anti-spam o anti-phishing, garantizando que llegue al buzón del usuario.
+
+**Interacción con el email.** Indica a las herramientas de seguridad adicionales que no interactúen con el email una vez entregado. Algunas soluciones hacen clic automáticamente en los enlaces del email para verificar si son seguros — esto generaría clics falsos en tus resultados de campaña y los invalidaría.
+
+---
+
+## Pasos a seguir
+
+### Paso 1 — Identificar todas tus herramientas de seguridad de email
+
+Antes de empezar, piensa en el recorrido completo que hace un email desde que HackBlock lo envía hasta que llega al buzón del usuario. ¿Qué herramientas están involucradas en ese recorrido?
+
+Respóndete estas dos preguntas:
+
+**¿Tienes herramientas que escanean y filtran emails entrantes antes de que lleguen al buzón?**
+Ejemplos: Microsoft Defender, Mimecast, Proofpoint, Vipre.
+
+**¿Tienes herramientas con acceso al buzón después de la entrega, que puedan interactuar con el contenido del email?**
+Ejemplos: antivirus con integración en Outlook, botones de reporte de phishing (add-ins), Microsoft Defender, Trend Micro.
+
+> Es fundamental identificar **todas** las herramientas que usas. Pasar por alto una sola puede hacer que los emails no lleguen o que los resultados de la campaña sean incorrectos.
+
+---
+
+### Paso 2 — Configurar el whitelisting en todos tus sistemas
+
+Empieza por tu cliente de email principal:
+
+- [Whitelisting en Microsoft Defender](guia-whitelist-defender)
+- [Whitelisting en Google Workspace](guia-whitelist-google)
+
+**Si solo usas Microsoft o Google**, continúa al Paso 3.
+
+**Si usas herramientas de seguridad adicionales**, necesitas configurarlas también. El objetivo es que la IP de origen de HackBlock llegue intacta a través de toda la cadena — si alguna herramienta intermedia modifica o reemplaza esa IP, Defender dejará de reconocer el email como una simulación autorizada.
+
+Según el tipo de herramienta adicional que uses, el enfoque es diferente:
+
+- Si usas una solución **Gateway** (el email pasa por ella antes de llegar a Exchange): configura un [Mail Connector](configurar-mail-connector).
+- Si usas una solución **integrada en Exchange** (inspecciona los emails después de la entrega): configura una [regla de flujo de correo](evitar-filtros-antispam).
+
+---
+
+### Paso 3 — Verificar con un email de prueba
+
+Una vez completado el whitelisting, HackBlock enviará un email de prueba a una cuenta de tu dominio. Verifica que:
+
+- [ ] El email llega al buzón de entrada, no a spam ni cuarentena
+- [ ] El enlace dentro del email funciona correctamente sin páginas de advertencia intermedias
+
+Si ambas condiciones se cumplen, el whitelisting está completo. Confirma a tu consultor de HackBlock para proceder con la campaña.
+
+---
+
+## Troubleshooting
+
+Si el email de prueba no llega correctamente, revisa las guías de whitelisting y asegúrate de no haber omitido ningún paso. Los errores más habituales son:
+
+- Una IP introducida incorrectamente (error tipográfico)
+- El dominio de campaña no añadido en el campo correcto
+- El campo Simulation URL sin el wildcard `/*`
+- Una herramienta de seguridad adicional que no se ha configurado
+
+Si no consigues identificar el origen del bloqueo, usa el **Message Trace** de Microsoft o el **Email Log Search** de Google para rastrear el recorrido del email y ver en qué punto fue detenido.
+
+Como última medida, puedes configurar un [Mail Connector](configurar-mail-connector) para establecer un canal de entrega directo. Ten en cuenta que el Mail Connector solo resuelve la entrega — si tienes herramientas que interactúan con el email después de la entrega, también necesitarás la [regla de flujo de correo](/soporte/mail-flow-rule).
+
+---
+
+## Contacto
+
+¿Necesitas ayuda durante el proceso? Contacta con tu consultor de HackBlock o escribe a [contacto@hack-block.com](mailto:contacto@hack-block.com).
