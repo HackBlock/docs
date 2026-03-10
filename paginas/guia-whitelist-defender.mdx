@@ -5,8 +5,6 @@ description: "Guía completa."
 
 # Whitelisting en Microsoft Defender
 
-![Alt text](/images/whitelist-defender/whitelist-defender-1.png)   
-
 Guía paso a paso para que el equipo de IT configure las exclusiones necesarias antes de iniciar una simulación de phishing autorizada con HackBlock.
 
 **Plataforma:** Microsoft Defender for Office 365  
@@ -48,12 +46,16 @@ Esta configuración le indica a Defender que los emails y enlaces de la campaña
 ### Instrucciones
 
 1. Accede al portal de Microsoft Defender en [security.microsoft.com](https://security.microsoft.com).
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-1.png) 
 
 2. En el menú lateral, ve a **Email & Collaboration** → **Policies & Rules**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-2.png)   
 
 3. Haz clic en **Threat Policies** → **Advanced Delivery**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-3.png)   
 
 4. Selecciona la pestaña **Phishing simulation** y haz clic en **Edit**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-4.png)   
 
 5. Despliega **Domain** e introduce el dominio de campaña:
 
@@ -75,8 +77,10 @@ Esta configuración le indica a Defender que los emails y enlaces de la campaña
 
    > **¿Qué hace este campo?**  
    > Indica a Microsoft Safe Links que no intercepte ni reescriba los enlaces del dominio de campaña. Sin esto, Safe Links bloqueará el enlace de phishing cuando el usuario haga clic, aunque el email haya llegado al buzón correctamente.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-5.png)   
 
 8. Haz clic en **Save** y luego en **Close**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-6.png)   
 
 ---
 
@@ -89,18 +93,24 @@ Este paso garantiza que los emails no sean rechazados a nivel de conexión SMTP 
 ### Instrucciones
 
 1. En el portal de Defender, ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-1.png)   
 
 2. Haz clic en **Anti-Spam policies** → **Connection filter policy (Default)**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-2.png)   
 
 3. Haz clic en **Edit connection filter policy**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-3.2.png)   
 
 4. En el apartado **"Always allow messages from the following IP addresses or address range"**, añade:
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-4.2.png)   
 
    ```
    1.1.1.1
    ```
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-5.2.png)   
 
 5. Asegúrate de que la política está activa y haz clic en **Save**.
+![Whitelisting Microsoft defender](/images/whitelist-defender/whitelist-defender-6.2.png)   
 
 ---
 
