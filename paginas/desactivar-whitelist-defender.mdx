@@ -1,0 +1,60 @@
+{/* hackblock-eliminar-whitelisting-defender.mdx */}
+
+# Eliminar el whitelisting en Microsoft Defender
+
+Guía para revertir las exclusiones configuradas en Microsoft Defender una vez finalizada la simulación de phishing.
+
+**Plataforma:** Microsoft Defender for Office 365  
+**Tipo:** Post-campaña — realiza estos pasos una vez confirmado el fin de la simulación con HackBlock
+
+---
+
+## Antes de empezar
+
+> **Importante:** No elimines el whitelisting hasta que HackBlock confirme que la campaña ha finalizado completamente. Hacerlo antes puede interrumpir la simulación y afectar a los resultados.
+
+---
+
+## Paso 1 — Eliminar la configuración de Advanced Delivery
+
+**Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Advanced Delivery** → pestaña **Phishing simulation**
+
+1. Accede al portal de Microsoft Defender en [security.microsoft.com](https://security.microsoft.com).
+2. Ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies** → **Advanced Delivery**.
+3. Selecciona la pestaña **Phishing simulation** y haz clic en **Edit**.
+4. Despliega **Domain** y elimina el dominio de campaña de HackBlock.
+5. Despliega **Sending IP** y elimina la siguiente IP:
+   ```
+   37.27.34.85
+   ```
+6. Despliega **Simulation URL** y elimina la URL de simulación.
+7. Haz clic en **Save** y luego en **Close**.
+
+---
+
+## Paso 2 — Eliminar la IP de la Connection Filter Policy
+
+**Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Anti-Spam policies** → Connection filter policy (Default)
+
+1. Ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies**.
+2. Haz clic en **Anti-Spam policies** → **Connection filter policy (Default)**.
+3. Haz clic en **Edit connection filter policy**.
+4. En el apartado **"Always allow messages from the following IP addresses or address range"**, elimina:
+   ```
+   37.27.34.85
+   ```
+5. Haz clic en **Save**.
+
+---
+
+## Verificación
+
+Una vez completados ambos pasos, Microsoft Defender volverá a aplicar sus políticas normales de seguridad sobre los emails enviados desde la infraestructura de HackBlock. No es necesario realizar ninguna prueba adicional.
+
+Confirma a tu consultor de HackBlock que el whitelisting ha sido eliminado.
+
+---
+
+## Contacto
+
+¿Tienes alguna duda durante el proceso? Escribe a [contacto@hack-block.com](mailto:contacto@hack-block.com).

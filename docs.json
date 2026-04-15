@@ -28,7 +28,8 @@
               "paginas/evitar-filtros-antispam",
               "paginas/guia-whitelist-defender",
               "paginas/guia-whitelist-google",
-              "paginas/configurar-mail-conector"
+              "paginas/configurar-mail-conector",
+              "paginas/desactivar-whitelist-defender"
             ]
           },
           {
