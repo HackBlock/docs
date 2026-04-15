@@ -20,30 +20,36 @@ Guía para revertir las exclusiones configuradas en Microsoft Defender una vez f
 **Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Advanced Delivery** → pestaña **Phishing simulation**
 
 1. Accede al portal de Microsoft Defender en [security.microsoft.com](https://security.microsoft.com).
-2. Ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies** → **Advanced Delivery**.
-3. Selecciona la pestaña **Phishing simulation** y haz clic en **Edit**.
-4. Despliega **Domain** y elimina el dominio de campaña de HackBlock.
-5. Despliega **Sending IP** y elimina la IP que te hayamos proporcionado:
+2. Ve a **Colaboración y correo electrónico** → **Reglas y directivas.** → **Directivas de amenazas** → **Entrega avanzada**.
+3. Selecciona la pestaña **simulación de phishing** y haz clic en **Editar**.
+4. Despliega **Dominio** y elimina el dominio/s de campaña de HackBlock.
+   ```
+   Ej: ejemplo.es
+   ```
+5. Despliega **Enviando IP** y elimina la IP que te hayamos proporcionado:
    ```
    Ej: 1.1.1.1
    ```
-6. Despliega **Simulation URL** y elimina la URL de simulación.
-7. Haz clic en **Save** y luego en **Close**.
+6. Despliega **Direcciones URL de simulación a permitir** y elimina la URL de simulación.
+   ```
+   Ej: ejemplo.es/*
+   ```
+7. Haz clic en **Guardar** y luego en **Cerrar**.
 
 ---
 
-## Paso 2 — Eliminar la IP de la Connection Filter Policy
+## Paso 2 — Eliminar la directiva de filtro de conexión
 
-**Ruta:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Anti-Spam policies** → Connection filter policy (Default)
+**Ruta en inglés:** `security.microsoft.com` → Email & Collaboration → Policies & Rules → Threat Policies → **Anti-Spam policies** → Connection filter policy (Default)
 
-1. Ve a **Email & Collaboration** → **Policies & Rules** → **Threat Policies**.
-2. Haz clic en **Anti-Spam policies** → **Connection filter policy (Default)**.
-3. Haz clic en **Edit connection filter policy**.
+1. Ve a **Colaboración y correo electrónico** → **Reglas y directivas.** → **Directivas de amenazas**.
+2. Haz clic en **Contra spam** → **Directiva de filtro de conexión**.
+3. Haz clic en **Editar directiva de filtro de conexión**.
 4. En el apartado **"Always allow messages from the following IP addresses or address range"**, elimina la IP que te hayamos proporcionado:
    ```
    Ej: 1.1.1.1
    ```
-5. Haz clic en **Save**.
+5. Haz clic en **Guardar**.
 
 ---
 
